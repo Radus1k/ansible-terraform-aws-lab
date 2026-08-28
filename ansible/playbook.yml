@@ -1,0 +1,36 @@
+---
+- name: Configure and deploy the containerised app
+  hosts: role_app          # group created by keyed_groups from the Role=app tag
+  become: true
+  gather_facts: false      # deferred until SSH is actually up
+
+  pre_tasks:
+    - name: Wait for SSH to become available
+      ansible.builtin.wait_for_connection:
+        delay: 5
+        timeout: 300
+
+    - name: Gather facts now that the host is reachable
+      ansible.builtin.setup:
+
+    - name: Wait for cloud-init / unattended-upgrades to release the apt lock
+      ansible.builtin.raw: |
+        while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do sleep 3; done
+      changed_when: false
+
+  roles:
+    - role: docker
+      tags: [docker]
+    - role: app_deploy
+      tags: [deploy]
+
+  post_tasks:
+    - name: Verify the app answers over HTTP
+      ansible.builtin.uri:
+        url: "http://localhost:{{ proxy_listen_port }}/"
+        status_code: 200
+      retries: 10
+      delay: 3
+      register: smoke
+      until: smoke is succeeded
+      tags: [verify]

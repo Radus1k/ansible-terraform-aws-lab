@@ -1,0 +1,20 @@
+---
+# The packages that make up "Docker" from the upstream apt repo.
+docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin
+
+# Linux users added to the 'docker' group (allowed to talk to the socket).
+docker_users:
+  - ubuntu
+
+# Serialised to /etc/docker/daemon.json. Log rotation so one chatty
+# container can't fill the root volume.
+docker_daemon_config:
+  log-driver: json-file
+  log-opts:
+    max-size: "10m"
+    max-file: "3"

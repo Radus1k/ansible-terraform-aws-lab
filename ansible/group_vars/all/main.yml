@@ -1,0 +1,27 @@
+---
+# ---------------------------------------------------------------------------
+# Non-secret variables shared by every host in the inventory.
+# Secrets belong in group_vars/all/vault.yml (see vault.yml.example).
+# Role defaults in roles/*/defaults/main.yml provide fallbacks; values set
+# here take precedence and are the intended "edit this" surface.
+# ---------------------------------------------------------------------------
+
+# Reverse proxy: the nginx container publishes this port on the EC2 host.
+# The security group already allows 80/tcp from allow_http_from.
+proxy_listen_port: 80
+server_name: _
+
+# The demo application that sits behind nginx.
+# traefik/whoami is tiny and just echoes request info. Swap app_image /
+# app_internal_port for your own container.
+app_name: demo-app
+app_image: "traefik/whoami:v1.10.1"
+app_internal_port: 80
+
+# User-defined bridge network shared by the app and the proxy so that
+# Docker's embedded DNS can resolve "demo-app" by name.
+app_network: appnet
+
+# Linux users added to the docker group on the host.
+docker_users:
+  - ubuntu

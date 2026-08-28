@@ -1,0 +1,11 @@
+# Copy to backend.hcl and fill in. These values cannot live in *.tf files
+# because Terraform forbids interpolation in the backend block.
+#
+#   cp backend.hcl.example backend.hcl
+#   terraform -chdir=terraform init -backend-config=backend.hcl
+#
+# The bucket name must match what you passed to `make bootstrap`
+# (bootstrap/terraform.tfvars -> state_bucket_name).
+
+bucket = "REPLACE-with-your-globally-unique-state-bucket"
+region = "eu-central-1"

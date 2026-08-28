@@ -1,0 +1,16 @@
+---
+# ---------------------------------------------------------------------------
+# Encrypted variables. This .example file is committed; the real file is not.
+#
+#   cp group_vars/all/vault.yml.example group_vars/all/vault.yml
+#   ansible-vault encrypt group_vars/all/vault.yml
+#   # edit later with:  ansible-vault edit group_vars/all/vault.yml
+#
+# Then run the playbook with  --ask-vault-pass  (or set ANSIBLE_VAULT_PASSWORD_FILE).
+#
+# Nothing in this lab requires these yet — they show the pattern. Reference
+# them elsewhere as {{ vault_app_secret_key }} etc.
+# ---------------------------------------------------------------------------
+
+vault_app_secret_key: "change-me"
+vault_registry_password: "change-me"

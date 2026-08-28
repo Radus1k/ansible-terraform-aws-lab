@@ -1,0 +1,7 @@
+---
+# Graceful config reload — no dropped connections, no container restart.
+# Only fires when the rendered nginx config actually changed.
+- name: Reload nginx
+  community.docker.docker_container_exec:
+    container: "{{ proxy_name }}"
+    command: nginx -s reload

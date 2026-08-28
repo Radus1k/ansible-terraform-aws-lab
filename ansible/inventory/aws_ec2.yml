@@ -1,0 +1,40 @@
+---
+# Dynamic inventory: Ansible asks the EC2 API "which hosts exist?" at runtime.
+# The join between Terraform and Ansible is TAGS, not a file of IP addresses.
+# Terraform tags the instance Role=app; this file selects on that tag.
+# Rebuild the box, get a new IP, change nothing here.
+
+plugin: amazon.aws.aws_ec2
+
+regions:
+  - eu-central-1
+
+filters:
+  "tag:Project": tf-ansible-lab
+  "tag:Environment": dev
+  instance-state-name: running
+
+# What Ansible calls the host in output
+hostnames:
+  - tag:Name
+
+# Build groups automatically from tags: Role=app -> group "role_app"
+keyed_groups:
+  - key: tags.Role
+    prefix: role
+    separator: "_"
+  - key: tags.Environment
+    prefix: env
+    separator: "_"
+
+# Map EC2 facts onto Ansible connection variables
+compose:
+  ansible_host: public_ip_address
+  ansible_user: "'ubuntu'"
+  ansible_python_interpreter: "'/usr/bin/python3'"
+
+# Cache API responses so you don't hammer the EC2 API on every run
+cache: true
+cache_plugin: jsonfile
+cache_timeout: 300
+cache_connection: /tmp/ansible_ec2_inventory_cache

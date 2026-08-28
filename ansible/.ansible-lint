@@ -1,0 +1,12 @@
+# Lab conventions: variables are shared across roles via group_vars and the
+# nginx template, so we deliberately use short unprefixed names.
+exclude_paths:
+  - collections/
+  - .cache/
+
+skip_list:
+  - var-naming[no-role-prefix]
+
+# Treat these as warnings, not hard failures.
+warn_list:
+  - yaml[line-length]

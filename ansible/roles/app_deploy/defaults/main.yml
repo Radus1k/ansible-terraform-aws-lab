@@ -1,0 +1,18 @@
+---
+# The application container.
+app_name: demo-app
+app_image: "traefik/whoami:v1.10.1"
+app_internal_port: 80
+app_env: {}                  # map of ENV vars passed into the container
+
+# The reverse proxy container.
+proxy_name: reverse-proxy
+proxy_image: "nginx:1.27-alpine"
+proxy_listen_port: 80
+server_name: _
+
+# Shared user-defined network.
+app_network: appnet
+
+# Where the rendered nginx site config lives on the host (bind-mounted in).
+nginx_conf_dir: /etc/app/nginx

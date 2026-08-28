@@ -1,0 +1,38 @@
+# {{ ansible_managed }}
+# Rendered by Ansible on {{ inventory_hostname }} - do not edit by hand.
+
+upstream app_backend {
+    # Docker embedded DNS resolves the container name on the user-defined network
+    server {{ app_name }}:{{ app_internal_port }};
+    keepalive 16;
+}
+
+server {
+    listen 80;
+    server_name {{ server_name }};
+
+    access_log /var/log/nginx/access.log;
+    error_log  /var/log/nginx/error.log warn;
+
+    client_max_body_size 20m;
+
+    location /healthz {
+        access_log off;
+        return 200 "ok\n";
+        add_header Content-Type text/plain;
+    }
+
+    location / {
+        proxy_pass http://app_backend;
+        proxy_http_version 1.1;
+
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Connection        "";
+
+        proxy_connect_timeout 5s;
+        proxy_read_timeout    60s;
+    }
+}

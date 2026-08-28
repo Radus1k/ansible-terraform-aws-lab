@@ -1,0 +1,36 @@
+# ---- Terraform ----
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Real config that carries account-specific or secret values
+terraform/backend.hcl
+terraform/terraform.tfvars
+bootstrap/terraform.tfvars
+*.auto.tfvars
+!*.tfvars.example
+!*.hcl.example
+
+# Keep the provider lock file committed:
+#   .terraform.lock.hcl  <-- intentionally NOT ignored
+
+# ---- Ansible ----
+*.retry
+ansible/collections/
+ansible/.ansible/
+.ansible/
+ansible/group_vars/all/vault.yml
+/tmp/ansible_ec2_inventory_cache
+
+# ---- Editor / OS ----
+.DS_Store
+*.swp
+*~
