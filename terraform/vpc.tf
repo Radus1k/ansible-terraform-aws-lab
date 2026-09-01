@@ -22,7 +22,7 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
-# Pick the first AZ in the region rather than hardcoding "eu-central-1a"
+# Pick the first AZ in the region rather than hardcoding "eu-north-1a"
 data "aws_availability_zones" "available" {
   state = "available"
 }

@@ -22,7 +22,7 @@ The two never talk directly — they meet at **EC2 tags**.
 | Thing | Where it goes | Notes |
 |---|---|---|
 | **AWS credentials** | `aws configure` / `AWS_PROFILE` / env vars | The identity needs to create VPC, EC2, EIP, IAM role+policy, S3, DynamoDB. An admin user or `PowerUserAccess` + `IAMFullAccess` is enough for a lab. |
-| **Region** | `terraform/terraform.tfvars`, `bootstrap/terraform.tfvars`, `ansible/inventory/aws_ec2.yml`, `terraform/backend.hcl` | Must be the **same** in all four. Default is `eu-central-1`. |
+| **Region** | `terraform/terraform.tfvars`, `bootstrap/terraform.tfvars`, `ansible/inventory/aws_ec2.yml`, `terraform/backend.hcl` | Must be the **same** in all four. Default is `eu-north-1`. |
 | **SSH keypair** | `~/.ssh/id_ed25519{,.pub}` | `ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519`. Only the `.pub` is uploaded (`public_key_path`). |
 | **Globally-unique S3 bucket name** | `bootstrap/terraform.tfvars` → `state_bucket_name`, then the same value in `terraform/backend.hcl` | S3 bucket names are global across all AWS accounts — add something random. |
 | **Your project/owner tags** | `terraform/terraform.tfvars` (`project_name`, `owner`, `environment`) | If you change `project_name` or `environment`, update the matching `filters:` in `ansible/inventory/aws_ec2.yml` — that tag match is the Terraform↔Ansible contract. |

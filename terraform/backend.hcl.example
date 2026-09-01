@@ -8,4 +8,4 @@
 # (bootstrap/terraform.tfvars -> state_bucket_name).
 
 bucket = "REPLACE-with-your-globally-unique-state-bucket"
-region = "eu-central-1"
+region = "eu-north-1"

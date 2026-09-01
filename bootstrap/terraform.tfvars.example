@@ -5,5 +5,5 @@
 # S3 bucket names are GLOBALLY unique across all AWS accounts, so add
 # something random. Lowercase letters, digits and hyphens only.
 
-aws_region        = "eu-central-1"
+aws_region        = "eu-north-1"
 state_bucket_name = "tfstate-your-name-lab-4f2a"

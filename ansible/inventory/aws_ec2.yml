@@ -7,7 +7,7 @@
 plugin: amazon.aws.aws_ec2
 
 regions:
-  - eu-central-1
+  - eu-north-1
 
 filters:
   "tag:Project": tf-ansible-lab
